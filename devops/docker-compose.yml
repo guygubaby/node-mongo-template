@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  backendEndpoint:
+    image: guygubaby/my-backend:latest
+    build:
+      context: .
+      dockerfile: devops/Dockerfile.backend
+    restart: unless-stopped
+    ports:
+      - 3334:3334
+    networks:
+      - backend
+      - frontend
+
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    networks:
+      - backend
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data/mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=bryce
+      - MONGO_INITDB_ROOT_PASSWORD=guygubaby
+
+  mongo-express:
+    image: mongo-express:latest
+    restart: always
+    networks:
+      - backend
+    ports:
+      - 3336:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=bryce
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=guygubaby
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+networks:
+  backend:
+  # driver: host
+  frontend:
+  # driver: bridge
