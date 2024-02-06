@@ -2,10 +2,15 @@ import process from 'node:process'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
+import dotenv from 'dotenv'
 import { createLogger } from './utils/logger'
 import { userRouter } from './routes/user'
 import { pingRouter } from './routes/ping'
 import { connectMongoDB } from './db'
+
+dotenv.config({
+  path: ['.env', '.env.local'],
+})
 
 const morganLog4js = createLogger('morgan')
 

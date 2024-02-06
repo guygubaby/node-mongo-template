@@ -1,8 +1,13 @@
 import process from 'node:process'
 import mongoose from 'mongoose'
 import { createLogger } from 'src/utils/logger'
+import dotenv from 'dotenv'
 
 const logger = createLogger('mongodb')
+
+dotenv.config({
+  path: ['.env', '.env.local'],
+})
 
 const MONGO_URI = process.env.MONGO_URI
 const USER_NAME = process.env.MONGO_USER_NAME
